@@ -52,12 +52,15 @@ export default {
 
         axios.post(SERVER_IP + '/api-token-auth/', this.credentials)
           .then(response => {
-
-            // 세션을 초기화, 사용하겠다
+            // vuex 는 모든 컴포넌트가 데이터를 공유하기 위해서
+            // 세션을 초기화, 사용하겠다 => 브라우저가 데이터를 저장하기 위해서
             this.$session.start()
 
             // 응답결과를 세션에 저장하겠다
             this.$session.set('jwt', response.data.token)
+
+            // vuex store 를 this.$store 로  접근 가능
+            this.$store.dispatch('login', response.data.token)
 
             this.loading = false
 
